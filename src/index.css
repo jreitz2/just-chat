@@ -5,13 +5,12 @@ body {
   background-color: rgb(54, 54, 54);
   color: lightgray;
 }
-
 .header {
   display: flex;
   justify-content: space-between;
   padding: 15px;
   margin-bottom: 10px;
-  font-size: 3rem;
+  font-size: 4rem;
   background-color: rgb(27, 27, 27);
 }
 .logo {
@@ -26,21 +25,16 @@ body {
 .account-buttons {
   display: flex;
   gap: 1rem;
+  font-size: 1.5rem;
 }
-.account-form-container {
+.account-signed-in {
   display: flex;
-  justify-content: center;
-  margin-top: 10%;
-}
-.account-form {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 60%;
   gap: 1rem;
 }
-.account-form button {
-  width: 30%;
+.account-signed-in img {
+  width: 50px;
+  border-radius: 50%;
 }
 .chat-container {
   display: flex;
@@ -72,7 +66,7 @@ body {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: .3rem;
+  gap: 0.3rem;
   overflow: auto;
   padding: 0px;
   width: 100%;
@@ -91,6 +85,13 @@ body {
   font-weight: bold;
   font-size: 1.2rem;
   color: black;
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+.msg-author img {
+  width: 30px;
+  border-radius: 50%;
 }
 .msg-msg {
   text-indent: 1rem;
@@ -99,7 +100,6 @@ body {
   background-color: rgb(126, 78, 204);
   align-self: flex-end;
 }
-
 
 @media only screen and (max-width: 600px) {
   .chat-log {
@@ -110,6 +110,6 @@ body {
     font-size: 1.2rem;
   }
   .header button {
-    font-size: 1.2rem;;
+    font-size: 1.2rem;
   }
 }
