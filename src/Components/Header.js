@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { signOut, signInWithRedirect } from "firebase/auth";
 
 const Header = ({ isLoggedIn, auth, user, provider }) => {
@@ -25,9 +24,7 @@ const Header = ({ isLoggedIn, auth, user, provider }) => {
 
   return (
     <div className="header">
-      <Link to="/" className="logo">
-        Just Chat!
-      </Link>
+      <h1>Just Chat!</h1>
       <div className="account-buttons">
         {!isLoggedIn && <button onClick={handleSignIn}>Sign-in</button>}
         {isLoggedIn && (

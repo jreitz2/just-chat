@@ -1,10 +1,15 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { Routes, Route } from "react-router-dom";
+import {
+  getAuth,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  getRedirectResult,
+} from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import Header from "./Components/Header";
 import Home from "./Components/Home";
+import UserList from "./Components/UserList";
 
 function App() {
   const firebaseConfig = {
@@ -21,9 +26,11 @@ function App() {
   provider.setCustomParameters({ prompt: "select_account" });
   const auth = getAuth();
   const user = auth.currentUser;
-  const db = getFirestore();
+  const db = getFirestore(app);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [currentDirectMessage, setCurrentDirectMessage] = useState(null);
 
   useEffect(() => {
     onAuthStateChanged(auth, (data) => {
@@ -36,6 +43,24 @@ function App() {
     });
   }, [auth, user]);
 
+  useEffect(() => {
+    if (user !== null) {
+      const createUser = async (result) => {
+        if (result !== null) {
+          const userRef = doc(db, "users", result.user.uid);
+          if (!userRef.exists) {
+            await setDoc(doc(db, "users", result.user.uid), {
+              uid: result.user.uid,
+              name: result.user.displayName,
+              photoURL: result.user.photoURL,
+            });
+          }
+        }
+      };
+      getRedirectResult(auth).then((result) => createUser(result));
+    }
+  }, [user]);
+
   return (
     <div className="App">
       <Header
@@ -44,12 +69,22 @@ function App() {
         user={user}
         provider={provider}
       />
-      <Routes>
-        <Route
-          path="/"
-          element={<Home db={db} user={user} isLoggedIn={isLoggedIn} />}
-        ></Route>
-      </Routes>
+      <main>
+        <UserList
+          db={db}
+          user={user}
+          selectedUser={selectedUser}
+          setSelectedUser={setSelectedUser}
+          setCurrentDirectMessage={setCurrentDirectMessage}
+        />
+        <Home
+          db={db}
+          user={user}
+          isLoggedIn={isLoggedIn}
+          selectedUser={selectedUser}
+          currentDirectMessage={currentDirectMessage}
+        />
+      </main>
     </div>
   );
 }

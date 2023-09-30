@@ -1,8 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+
 body {
   margin: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: rgb(54, 54, 54);
+  font-family: "Nunito", sans-serif;
+  background-color: rgb(64, 64, 64);
   color: lightgray;
 }
 .header {
@@ -10,17 +12,17 @@ body {
   justify-content: space-between;
   padding: 15px;
   margin-bottom: 10px;
-  font-size: 4rem;
+  font-size: 1.5rem;
   background-color: rgb(27, 27, 27);
 }
-.logo {
-  cursor: pointer;
-  text-decoration: none;
+h1 {
   color: goldenrod;
 }
 .header button {
   font-size: 2rem;
   cursor: pointer;
+  height: fit-content;
+  align-self: center;
 }
 .account-buttons {
   display: flex;
@@ -36,12 +38,49 @@ body {
   width: 50px;
   border-radius: 50%;
 }
+main {
+  display: flex;
+}
+.user-list-container {
+  flex: 1;
+  border: 1px solid black;
+  font-size: 1.2rem;
+  margin-left: 10%;
+}
+.user-list-container ul {
+  list-style-type: none;
+  overflow: auto;
+  padding: 5px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.user-list-container li {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 5px 10px;
+  background-color: rgb(51, 51, 51);
+  cursor: pointer;
+}
+.user-list-container img {
+  width: 50px;
+  height: 50px;
+}
+.user-list-container .active-user {
+  background-color: rgb(36, 36, 36);
+}
+.user-list-container .selected-user {
+  background-color: rgb(36, 36, 36);
+}
 .chat-container {
   display: flex;
-  justify-content: center;
+  flex: 3;
+  justify-content: flex-start;
 }
 .chat-log {
-  width: 50%;
+  width: 80%;
   height: 80vh;
   border: 1px solid black;
   background-color: lightgray;
@@ -60,6 +99,7 @@ body {
 }
 .send-btn {
   font-size: 2rem;
+  cursor: pointer;
 }
 .chat-log ul {
   align-self: self-start;
@@ -77,6 +117,8 @@ body {
   padding: 3px 10px;
   border-radius: 5px;
   max-width: 95%;
+  margin-right: 2px;
+  margin-left: 2px;
 }
 .msg-container p {
   margin: 2px;
@@ -100,16 +142,44 @@ body {
   background-color: rgb(126, 78, 204);
   align-self: flex-end;
 }
+.show-users-button {
+  display: none;
+  background-color: rgb(27, 27, 27);
+  color: white;
+  box-shadow: none;
+  border: none;
+}
 
 @media only screen and (max-width: 600px) {
   .chat-log {
-    width: 95%;
+    width: 100%;
     height: 84vh;
   }
   .header {
     font-size: 1.2rem;
+    padding: 5px;
+    margin-bottom: 5px;
   }
   .header button {
     font-size: 1.2rem;
+  }
+  .user-list-container {
+    margin-left: 0;
+    display: none;
+  }
+  .user-list-container li {
+    font-size: 0.9rem;
+    padding: 2px;
+  }
+  .user-list-container img {
+    width: 40px;
+    height: 40px;
+  }
+  .show-users-button {
+    display: block;
+    cursor: pointer;
+  }
+  .expanded {
+    display: block;
   }
 }

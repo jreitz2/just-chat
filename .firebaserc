@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "just-chat-496c6"
-  }
+    "default": "just-chat-496c6",
+    "just-chat": "just-chat-496c6"
+  },
+  "targets": {},
+  "etags": {}
 }
