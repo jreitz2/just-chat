@@ -10,7 +10,14 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState, useRef } from "react";
 
-const Home = ({ db, isLoggedIn, user, selectedUser, currentDirectMessage }) => {
+const Home = ({
+  db,
+  isLoggedIn,
+  user,
+  auth,
+  selectedUser,
+  currentDirectMessage,
+}) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
@@ -25,7 +32,6 @@ const Home = ({ db, isLoggedIn, user, selectedUser, currentDirectMessage }) => {
 
       const checkCollectionExists = async () => {
         const querySnapshot1 = await getDocs(collection(db, conversationId1));
-        console.log(querySnapshot1);
         if (!querySnapshot1.empty) {
           colRef.current = collection(db, conversationId1);
           colQuery.current = query(
@@ -39,7 +45,7 @@ const Home = ({ db, isLoggedIn, user, selectedUser, currentDirectMessage }) => {
           if (!querySnapshot2.empty) {
             colRef.current = collection(db, conversationId2);
             colQuery.current = query(
-              colRef,
+              colRef.current,
               orderBy("createdAt", "desc"),
               limit(20)
             );
@@ -60,7 +66,7 @@ const Home = ({ db, isLoggedIn, user, selectedUser, currentDirectMessage }) => {
       );
       subscribeToMessages();
     }
-  }, [user, selectedUser, currentDirectMessage, db]);
+  }, [user, selectedUser, currentDirectMessage, db, auth]);
 
   const subscribeToMessages = () => {
     const unsub = onSnapshot(colQuery.current, (querySnapshot) => {

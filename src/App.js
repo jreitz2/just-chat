@@ -59,7 +59,7 @@ function App() {
       };
       getRedirectResult(auth).then((result) => createUser(result));
     }
-  }, [user]);
+  }, [user, auth, db]);
 
   return (
     <div className="App">
@@ -80,6 +80,7 @@ function App() {
         <Home
           db={db}
           user={user}
+          auth={auth}
           isLoggedIn={isLoggedIn}
           selectedUser={selectedUser}
           currentDirectMessage={currentDirectMessage}

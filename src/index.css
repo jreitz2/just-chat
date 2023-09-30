@@ -26,7 +26,6 @@ h1 {
 }
 .account-buttons {
   display: flex;
-  gap: 1rem;
   font-size: 1.5rem;
 }
 .account-signed-in {
@@ -151,21 +150,22 @@ main {
 }
 
 @media only screen and (max-width: 600px) {
-  .chat-log {
-    width: 100%;
-    height: 84vh;
-  }
   .header {
-    font-size: 1.2rem;
+    font-size: 1rem;
     padding: 5px;
     margin-bottom: 5px;
   }
   .header button {
     font-size: 1.2rem;
   }
+  .account-signed-in {
+    gap: 0.5rem;
+    font-size: 1rem;
+  }
   .user-list-container {
     margin-left: 0;
     display: none;
+    flex: 2;
   }
   .user-list-container li {
     font-size: 0.9rem;
@@ -181,5 +181,15 @@ main {
   }
   .expanded {
     display: block;
+  }
+  .chat-log {
+    width: 100%;
+    height: 84vh;
+  }
+  .chat-log input {
+    font-size: 1.5rem;
+  }
+  .send-btn {
+    font-size: 1.5rem;
   }
 }
