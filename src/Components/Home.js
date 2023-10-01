@@ -9,6 +9,9 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { useEffect, useState, useRef } from "react";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import emojiBtn from "../assets/emoji-btn.png";
 
 const Home = ({
   db,
@@ -20,6 +23,7 @@ const Home = ({
 }) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 
   const scrollRef = useRef();
   const colRef = useRef(null);
@@ -110,6 +114,12 @@ const Home = ({
     setMessage(e.target.value);
   };
 
+  const handleClickOutside = () => {
+    if (emojiPickerVisible) {
+      setEmojiPickerVisible(!emojiPickerVisible);
+    }
+  };
+
   const handleSend = (e) => {
     e.preventDefault();
     console.log(colRef.current);
@@ -142,6 +152,22 @@ const Home = ({
               value={message}
               onChange={handleMessageChange}
             />
+            <button
+              type="button"
+              onClick={() => setEmojiPickerVisible(!emojiPickerVisible)}
+            >
+              <img src={emojiBtn} alt="emoji" />
+            </button>
+            <div className={emojiPickerVisible ? "showEmoji" : "hideEmoji"}>
+              <Picker
+                data={data}
+                onClickOutside={handleClickOutside}
+                onEmojiSelect={(e) => {
+                  setMessage(message + e.native);
+                  setEmojiPickerVisible(!emojiPickerVisible);
+                }}
+              ></Picker>
+            </div>
             <button className="send-btn" onClick={handleSend}>
               Send
             </button>

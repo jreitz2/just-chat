@@ -153,6 +153,15 @@ main {
   box-shadow: none;
   border: none;
 }
+.hideEmoji {
+  display: none;
+}
+.showEmoji {
+  display: block;
+  position: absolute;
+  transform: translateY(-100%);
+  right: 10%;
+}
 
 @media only screen and (max-width: 600px) {
   .header {
@@ -199,5 +208,8 @@ main {
   }
   .send-btn {
     font-size: 1.5rem;
+  }
+  .showEmoji {
+    right: 2%;
   }
 }
