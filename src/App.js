@@ -36,7 +36,6 @@ function App() {
     onAuthStateChanged(auth, (data) => {
       if (data) {
         setIsLoggedIn(true);
-        console.log("User signed in:", user);
       } else {
         setIsLoggedIn(false);
       }

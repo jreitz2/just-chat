@@ -37,7 +37,7 @@ const Home = ({
           colQuery.current = query(
             colRef.current,
             orderBy("createdAt", "desc"),
-            limit(20)
+            limit(30)
           );
           subscribeToMessages();
         } else {
@@ -47,7 +47,7 @@ const Home = ({
             colQuery.current = query(
               colRef.current,
               orderBy("createdAt", "desc"),
-              limit(20)
+              limit(30)
             );
             subscribeToMessages();
           } else {
@@ -62,7 +62,7 @@ const Home = ({
       colQuery.current = query(
         colRef.current,
         orderBy("createdAt", "desc"),
-        limit(20)
+        limit(30)
       );
       subscribeToMessages();
     }
@@ -125,7 +125,11 @@ const Home = ({
 
   return (
     <div className="chat-container">
-      {!isLoggedIn && "Sign in to use the chat feature!"}
+      {!isLoggedIn && (
+        <span className="sign-in-prompt">
+          Sign in to use group chat or direct message other users!
+        </span>
+      )}
       {isLoggedIn && (
         <div className="chat-log">
           <ul>{chat}</ul>

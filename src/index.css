@@ -27,6 +27,7 @@ h1 {
 .account-buttons {
   display: flex;
   font-size: 1.5rem;
+  gap: 1rem;
 }
 .account-signed-in {
   display: flex;
@@ -36,6 +37,9 @@ h1 {
 .account-signed-in img {
   width: 50px;
   border-radius: 50%;
+}
+.sign-in-prompt {
+  margin: 10px 5px;
 }
 main {
   display: flex;
@@ -132,6 +136,7 @@ main {
 }
 .msg-author img {
   width: 30px;
+  height: 30px;
   border-radius: 50%;
 }
 .msg-msg {
@@ -156,7 +161,10 @@ main {
     margin-bottom: 5px;
   }
   .header button {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+  }
+  .account-buttons {
+    gap: 0.8rem;
   }
   .account-signed-in {
     gap: 0.5rem;
