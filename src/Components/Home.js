@@ -23,6 +23,7 @@ const Home = ({
 }) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [sendMessage, setSendMessage] = useState(false);
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 
   const scrollRef = useRef();
@@ -120,18 +121,61 @@ const Home = ({
     }
   };
 
-  const handleSend = (e) => {
-    e.preventDefault();
-    console.log(colRef.current);
-    addDoc(colRef.current, {
-      message: message,
-      author: user.displayName,
-      photoURL: user.photoURL,
-      createdAt: serverTimestamp(),
-    }).then(() => {
-      setMessage("");
-    });
+  const handleSend = async () => {
+    try {
+      await addDoc(colRef.current, {
+        message: message,
+        author: user.displayName,
+        photoURL: user.photoURL,
+        createdAt: serverTimestamp(),
+      }).then(() => {
+        setMessage("");
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const parseDiceRoll = (message) => {
+    const regex = /^\/r\s+(\d+)d(\d+)$/;
+    const match = message.match(regex);
+    if (match) {
+      const N = parseInt(match[1]);
+      const M = parseInt(match[2]);
+      return { N, M };
+    }
+    return null;
+  };
+
+  const rollDice = (N, M) => {
+    let total = 0;
+    for (let i = 0; i < N; i++) {
+      total += Math.floor(Math.random() * M) + 1;
+    }
+    return total;
+  };
+
+  const handleDiceRoll = () => {
+    const isDiceRoll = parseDiceRoll(message);
+    if (isDiceRoll) {
+      const { N, M } = isDiceRoll;
+      const result = rollDice(N, M);
+      setMessage(`Rolled ${N}d${M}: ${result}`);
+    }
+  };
+
+  const handleDiceAndSend = (e) => {
+    e.preventDefault();
+    handleDiceRoll();
+    setSendMessage(true);
+  };
+
+  useEffect(() => {
+    if (sendMessage) {
+      handleSend();
+      setSendMessage(false);
+    }
+  }, [sendMessage]);
 
   return (
     <div className="chat-container">
@@ -168,7 +212,7 @@ const Home = ({
                 }}
               ></Picker>
             </div>
-            <button className="send-btn" onClick={handleSend}>
+            <button className="send-btn" onClick={handleDiceAndSend}>
               Send
             </button>
           </form>
