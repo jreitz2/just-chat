@@ -31,6 +31,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [currentDirectMessage, setCurrentDirectMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (data) => {
@@ -67,6 +68,7 @@ function App() {
         auth={auth}
         user={user}
         provider={provider}
+        setIsLoading={setIsLoading}
       />
       <main>
         <UserList
@@ -83,6 +85,7 @@ function App() {
           isLoggedIn={isLoggedIn}
           selectedUser={selectedUser}
           currentDirectMessage={currentDirectMessage}
+          isLoading={isLoading}
         />
       </main>
     </div>

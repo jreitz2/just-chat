@@ -20,6 +20,7 @@ const Home = ({
   auth,
   selectedUser,
   currentDirectMessage,
+  isLoading,
 }) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -122,17 +123,20 @@ const Home = ({
   };
 
   const handleSend = async () => {
-    try {
-      await addDoc(colRef.current, {
-        message: message,
-        author: user.displayName,
-        photoURL: user.photoURL,
-        createdAt: serverTimestamp(),
-      }).then(() => {
-        setMessage("");
-      });
-    } catch (error) {
-      console.log(error);
+    const trimmedMessage = message.trim();
+    if (trimmedMessage.length > 0) {
+      try {
+        await addDoc(colRef.current, {
+          message: trimmedMessage,
+          author: user.displayName,
+          photoURL: user.photoURL,
+          createdAt: serverTimestamp(),
+        }).then(() => {
+          setMessage("");
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -179,44 +183,50 @@ const Home = ({
 
   return (
     <div className="chat-container">
-      {!isLoggedIn && (
-        <span className="sign-in-prompt">
-          Sign in to use group chat or direct message other users!
-        </span>
-      )}
-      {isLoggedIn && (
-        <div className="chat-log">
-          <ul>{chat}</ul>
-          <form>
-            <input
-              type="text"
-              className="chat-input"
-              id="message"
-              name="message"
-              value={message}
-              onChange={handleMessageChange}
-            />
-            <button
-              type="button"
-              onClick={() => setEmojiPickerVisible(!emojiPickerVisible)}
-            >
-              <img src={emojiBtn} alt="emoji" />
-            </button>
-            <div className={emojiPickerVisible ? "showEmoji" : "hideEmoji"}>
-              <Picker
-                data={data}
-                onClickOutside={handleClickOutside}
-                onEmojiSelect={(e) => {
-                  setMessage(message + e.native);
-                  setEmojiPickerVisible(!emojiPickerVisible);
-                }}
-              ></Picker>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          {!isLoggedIn && (
+            <span className="sign-in-prompt">
+              Sign in to use group chat or direct message other users!
+            </span>
+          )}
+          {isLoggedIn && (
+            <div className="chat-log">
+              <ul>{chat}</ul>
+              <form>
+                <input
+                  type="text"
+                  className="chat-input"
+                  id="message"
+                  name="message"
+                  value={message}
+                  onChange={handleMessageChange}
+                />
+                <button
+                  type="button"
+                  onClick={() => setEmojiPickerVisible(!emojiPickerVisible)}
+                >
+                  <img src={emojiBtn} alt="emoji" />
+                </button>
+                <div className={emojiPickerVisible ? "showEmoji" : "hideEmoji"}>
+                  <Picker
+                    data={data}
+                    onClickOutside={handleClickOutside}
+                    onEmojiSelect={(e) => {
+                      setMessage(message + e.native);
+                      setEmojiPickerVisible(!emojiPickerVisible);
+                    }}
+                  ></Picker>
+                </div>
+                <button className="send-btn" onClick={handleDiceAndSend}>
+                  Send
+                </button>
+              </form>
             </div>
-            <button className="send-btn" onClick={handleDiceAndSend}>
-              Send
-            </button>
-          </form>
-        </div>
+          )}
+        </>
       )}
     </div>
   );
