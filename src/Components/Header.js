@@ -1,14 +1,14 @@
 import {
   signOut,
-  signInWithRedirect,
   signInAnonymously,
   updateProfile,
+  signInWithPopup,
 } from "firebase/auth";
 
 const Header = ({ isLoggedIn, auth, user, provider, setIsLoading }) => {
   const handleSignIn = () => {
     setIsLoading(true);
-    signInWithRedirect(auth, provider)
+    signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
         console.log(user);
